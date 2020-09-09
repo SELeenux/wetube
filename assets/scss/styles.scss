@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;700;800&display=swap');
+@import "/config/_variables.scss";
+@import "/config/reset.scss";
+@import "main.scss";
+
+@import "partials/header.scss";
+@import "partials/footer.scss";
+@import "partials/form.scss";
+@import "partials/socialLogin.scss";
+@import "partials/videoBlock.scss";
+
+@import "pages/videoDetail.scss";
+@import "pages/home.scss";
