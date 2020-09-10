@@ -1,6 +1,7 @@
 import routes from "../routes";
 import Video from "../models/Video"
 import { get } from "mongoose";
+import Comment from "../models/Comment"
 
 export const home = async (req, res) => {
   try {
@@ -25,7 +26,7 @@ export const search = async (req, res) => {
     console.log(error);
   }
   res.render("search", { pageTitle: "Search", searchingBy, videos });
-}
+};
 
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 
@@ -50,7 +51,9 @@ export const videoDetail = async (req, res) => {
     params: { id }
   } = req;
   try {
-    const video = await Video.findById(id).populate('creator');
+    const video = await Video.findById(id)
+      .populate("creator")
+      .populate("comment");
     res.render("videoDetail", { pageTitle: video.title, video });
   }
   catch (error) {
@@ -74,7 +77,7 @@ export const getEditVideo = async (req, res) => {
   catch (error) {
     res.redirect(routes.home);
   }
-}
+};
 
 export const postEditVideo = async (req, res) => {
   const {
@@ -107,4 +110,44 @@ export const deleteVideo = async (req, res) => {
     console.log(error);
   }
   res.redirect(routes.home);
+};
+
+export const postRegisterView = async (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    video.views += 1;
+    video.save();
+    res.status(200);
+  } catch (error) {
+    res.status(400);
+  }
+  finally {
+    res.end();
+  }
+};
+
+export const postAddComment = async (req, res) => {
+  const {
+    params: { id },
+    body: { comment },
+    user
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    const newComment = await Comment.create({
+      text: comment,
+      creator: user.id
+    });
+    video.comment.push(newComment.id);
+    video.save();
+  }
+  catch (error) {
+    res.status(400);
+  }
+  finally {
+    res.end();
+  }
 }
