@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 mongoose.connect(
-  process.env.MONGO_URL,
+  "mongodb+srv://wetubeadmin:1234@cluster0.gwlbx.mongodb.net/wetube?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useFindAndModify: false
@@ -13,7 +13,7 @@ mongoose.connect(
 const db = mongoose.connection;
 
 const handleOpen = () => console.log("✅ Connected to DB");
-const handleError = () => console.log(`⛔ Error on DB Connection:${error}`);
+const handleError = (error) => console.log(`⛔ Error on DB Connection:${error}`);
 
 db.once("open", handleOpen);
 db.on("error", handleError);

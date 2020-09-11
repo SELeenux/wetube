@@ -33,13 +33,14 @@ export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload
 export const postUpload = async (req, res) => {
   const {
     body: { title, description },
-    file: { path }
+    file: { location }
   } = req;
+  console.log(location);
   const newVideo = await Video.create({
-    fileUrl: path,
+    fileUrl: location,
     title,
     description,
-    creator: req.user.id,
+    creator: req.user.id
   });
   req.user.videos.push(newVideo.id);
   req.user.save();
@@ -63,11 +64,12 @@ export const videoDetail = async (req, res) => {
 
 export const getEditVideo = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
+    user
   } = req;
   try {
     const video = await Video.findById(id);
-    if (video.creator !== req.user.id) {
+    if (video.creator.toString() !== user.id) {
       throw Error();
     }
     else {
@@ -99,7 +101,7 @@ export const deleteVideo = async (req, res) => {
   } = req;
   try {
     const video = await Video.findById(id);
-    if (video.creator !== req.user.id) {
+    if (video.creator.toString() !== req.user.id) {
       throw Error();
     }
     else {
