@@ -26,6 +26,9 @@ globalRouter.get(
 globalRouter.get(routes.me, getMe);
 
 globalRouter.get(routes.facebook, facebookLogin);
-globalRouter.get(routes.facebookCallback, passport.authenticate("facebook", { failureRedirect: routes.logIn }), postFacebookLogin);
+globalRouter.get(
+  routes.facebookCallback,
+  passport.authenticate("facebook", { failureRedirect: routes.logIn }), postFacebookLogin
+);
 
 export default globalRouter;

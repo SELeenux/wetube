@@ -98,14 +98,22 @@ export const logout = (req, res) => {
   res.redirect(routes.home);
 };
 
-export const getMe = (req, res) => {
-  res.render("userDetail", { pageTitle: "User Detail", user: req.user });
+export const getMe = async (req, res) => {
+  const id = req.user.id;
+  try {
+    const user = await User.findById(id).populate("videos");
+    res.render("userDetail", { pageTitle: "User Detail", user });
+  }
+  catch (error) {
+    res.redirect(routes.home);
+  }
 }
 
 export const userDetail = async (req, res) => {
   const { params: { id } } = req;
   try {
     const user = await User.findById(id).populate("videos");
+    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   }
   catch (error) {
@@ -128,7 +136,8 @@ export const postEditProfile = async (req, res) => {
     });
     res.redirect(routes.me);
   } catch (error) {
-    res.redirect(routes.editProfile);
+    console.log(error);
+    res.redirect(`${routes.users}${routes.editProfile}`);
   }
 };
 
@@ -153,6 +162,6 @@ export const postChangePassword = async (req, res) => {
   }
   catch (error) {
     res.status(400);
-    res.riderect(`${routes.users}${routes.changePassword}`);
+    res.redirect(`${routes.users}${routes.changePassword}`);
   }
 };
