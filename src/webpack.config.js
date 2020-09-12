@@ -46,4 +46,5 @@ const config = {
   },
   plugins: [new ExtractCSS("styles.css")]
 };
+
 module.exports = config;

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 mongoose.connect(
-  "mongodb+srv://wetubeadmin:1234@cluster0.gwlbx.mongodb.net/wetube?retryWrites=true&w=majority",
+  process.env.MONGO_URL_PROD,
   {
     useNewUrlParser: true,
     useFindAndModify: false

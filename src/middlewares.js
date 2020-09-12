@@ -2,10 +2,12 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import aws from "aws-sdk";
 import routes from "./routes";
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const s3 = new aws.S3({
-  accessKeyId: "AKIA32F2WBXOYLM3F4VD",
-  secretAccessKey: "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",
+  accessKeyId: process.env.AWS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
   region: "us-east-2"
 });
 
